@@ -1,5 +1,6 @@
 package T4Programacion;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -8,23 +9,27 @@ public class BingoAzahara {
     static Scanner ent;
 
     public static void main(String[] args) {
-
         ent = new Scanner(System.in);
-
-        int numCasos = ent.nextInt();
-        for (int i = 0; i < numCasos; i++)
-            casoDePrueba();
+        while (casoDePrueba()) {
+        }
     }
 
-    public static void casoDePrueba() {
+    public static boolean casoDePrueba() {
 
         int n = numero();
-        if (n < 1 || n > 50000) { //o matches("\\d{1,8}")
-            System.err.println("Fuera de limites");
-            System.exit(0);
-        }
-        carton(n);
 
+        if (n==0) {
+            return false;
+        }else {
+            if(!comprobar(n)){
+                System.exit(0);
+            }
+            String[][] matriz = carton(n);
+            int n1 = numero();
+            int[] bolas = bolas(n1);
+            ganadores(matriz,bolas,n);
+            return true;
+        }
     }
 
     public static int numero() {
@@ -37,62 +42,80 @@ public class BingoAzahara {
             System.exit(0); //o un return para volver a pedirlo
         }
 
+        ent.nextLine();
         return n;
     }
 
-    public static void carton(int n){
+    public static boolean comprobar(int n){
 
-        String[] nombres = new String[n];
-        int[][] cartones = new int[n][1000];
-        int[] tamanosCarton = new int[n];
-
-        // Leer datos de los jugadores
-        for (int i = 0; i < n; i++) {
-            String linea = ent.nextLine();
-            String[] partes = linea.split(" ");
-            nombres[i] = partes[0];
-
-            // Guardar números del cartón
-            int k = 0;
-            for (int j = 1; j < partes.length - 1; j++) { // Ignorar el último "0"
-                cartones[i][k++] = Integer.parseInt(partes[j]);
-            }
-            tamanosCarton[i] = k;
+        if (n < 1 || n > 50000) {
+            System.err.println("Fuera de limites");
+            return false;
+        } else {
+            return true;
         }
-        
     }
 
-//     Scanner scanner = new Scanner(System.in);
-//
-//        while (scanner.hasNextInt()) {
-//
-//            String[] nombres = new String[n];
-//            int[][] cartones = new int[n][1000]; // Máximo de 1000 números por cartón
-//            int[] tamanosCarton = new int[n];
-//
-//            // Leer datos de los jugadores
-//            for (int i = 0; i < n; i++) {
-//                String linea = scanner.nextLine();
-//                String[] partes = linea.split(" ");
-//                nombres[i] = partes[0];
-//
-//                // Guardar números del cartón
-//                int k = 0;
-//                for (int j = 1; j < partes.length - 1; j++) { // Ignorar el último "0"
-//                    cartones[i][k++] = Integer.parseInt(partes[j]);
-//                }
-//                tamanosCarton[i] = k;
-//            }
-//
-//            // Leer números cantados
-//            int m = scanner.nextInt(); // Número de bolas cantadas
-//            scanner.nextLine(); // Consumir línea restante
-//            String[] numerosCantadosStr = scanner.nextLine().split(" ");
-//            int[] numerosCantados = new int[m];
-//            for (int i = 0; i < m; i++) {
-//                numerosCantados[i] = Integer.parseInt(numerosCantadosStr[i]);
-//            }
-//
+    public static String[][] carton(int n){
+
+        String datos;
+        String[] carton;
+        String[][] matriz = new String[n][1000];
+
+        for (int i = 0; i < matriz.length; i++) {
+
+            datos = ent.nextLine();
+            carton = datos.split(" ");
+
+            for (int j = 0; j < matriz[i].length; j++) {
+                if (carton[j].equals("0")){
+                    break;
+                }
+                matriz[i][j] = carton[j];
+            }
+        }
+
+        return matriz;
+    }
+
+    public static int[] bolas(int n1){
+
+        int[] bolas = new int[n1];
+        String[] miau = ent.nextLine().split(" ");
+
+        for (int i = 0; i < n1; i++) {
+            bolas[i] = Integer.parseInt(miau[i]);
+        }
+
+        return bolas;
+    }
+
+    public static String ganadores(String[][] matriz, int[] bolas, int n){
+
+        boolean bingo = true;
+        int premio = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+
+                if (!Arrays.asList(bolas).contains(matriz[i][j])) {
+                    bingo = false;
+                    break;
+                }
+            }
+        }
+
+        if(bingo){
+            return "bingo";
+        } else {
+            return "no bingo";
+        }
+
+    }
+
+
+
+
 //            // Buscar ganadores
 //            String[] ganadores = new String[n];
 //            int numGanadores = 0;
