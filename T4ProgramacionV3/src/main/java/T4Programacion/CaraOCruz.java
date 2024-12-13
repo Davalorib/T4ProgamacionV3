@@ -5,6 +5,11 @@ import java.util.Scanner;
 
 public class CaraOCruz {
 
+    public static void main(String[] args) {
+
+        principal();
+    }
+
     public static void principal(){
 
         Scanner ent = new Scanner(System.in);
