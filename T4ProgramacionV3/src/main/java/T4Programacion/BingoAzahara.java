@@ -1,6 +1,5 @@
 package T4Programacion;
 
-import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -18,38 +17,39 @@ public class BingoAzahara {
 
         int n = numero();
 
-        if (n==0) {
+        if (n == 0) {
             return false;
         }else {
             if(!comprobar(n)){
-                System.exit(0);
+                return false;
             }
             String[][] matriz = carton(n);
             int n1 = numero();
             int[] bolas = bolas(n1);
-            ganadores(matriz,bolas,n);
+            String[] ganadores = ganadores(matriz,bolas,n);
+            ordenar(ganadores);
+            imprimir(ganadores);
+
             return true;
         }
     }
 
     public static int numero() {
 
-        int n = 0;
         try {
-            n = ent.nextInt();
+            int num = ent.nextInt();
+            ent.nextLine();
+            return num;
         } catch (InputMismatchException er) {
-            System.err.println("ERROR. Número no válido");
-            System.exit(0); //o un return para volver a pedirlo
+            ent.nextLine();
+            return 0;
         }
 
-        ent.nextLine();
-        return n;
     }
 
     public static boolean comprobar(int n){
 
         if (n < 1 || n > 50000) {
-            System.err.println("Fuera de limites");
             return false;
         } else {
             return true;
@@ -59,20 +59,11 @@ public class BingoAzahara {
     public static String[][] carton(int n){
 
         String datos;
-        String[] carton;
         String[][] matriz = new String[n][1000];
 
-        for (int i = 0; i < matriz.length; i++) {
-
+        for (int i = 0; i < n; i++) {
             datos = ent.nextLine();
-            carton = datos.split(" ");
-
-            for (int j = 0; j < matriz[i].length; j++) {
-                if (carton[j].equals("0")){
-                    break;
-                }
-                matriz[i][j] = carton[j];
-            }
+            matriz[i] = datos.split(" ");
         }
 
         return matriz;
@@ -90,69 +81,74 @@ public class BingoAzahara {
         return bolas;
     }
 
-    public static String ganadores(String[][] matriz, int[] bolas, int n){
+    public static String[] ganadores(String[][] matriz, int[] bolas, int n) {
 
-        boolean bingo = true;
-        int premio = 0;
+        String[] genios = new String[n];
+        int cont = 0;
 
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < matriz[i].length; j++) {
+            boolean bingo = true;
+            String pibe = matriz[i][0];
 
-                if (!Arrays.asList(bolas).contains(matriz[i][j])) {
+            for (int j = 1; j < matriz[i].length; j++) {
+                if (matriz[i][j].equals("0")) {
+                    break;
+                }
+
+                int num = Integer.parseInt(matriz[i][j]);
+                boolean eureka = false;
+
+                for (int bola : bolas) {
+                    if (bola == num) {
+                        eureka = true;
+                        break;
+                    }
+                }
+
+                if (!eureka) {
                     bingo = false;
                     break;
                 }
             }
+
+            if (bingo) {
+                genios[cont] = pibe;
+                cont++;
+            }
         }
 
-        if(bingo){
-            return "bingo";
-        } else {
-            return "no bingo";
+        String[] ganadores = new String[cont];
+        for (int i = 0; i < cont; i++) {
+            ganadores[i] = genios[i];
         }
 
+        return ganadores;
     }
 
+    public static void ordenar(String[] pibes) {
 
+        String aux;
 
+        for (int i = 0; i < pibes.length; i++) {
+            for (int j = 0; j < pibes.length-i-1; j++) {
+                if (pibes[j].compareTo(pibes[j + 1]) > 0) {
+                    aux = pibes[j];
+                    pibes[j] = pibes[j + 1];
+                    pibes[j + 1] = aux;
+                }
+            }
+        }
+    }
 
-//            // Buscar ganadores
-//            String[] ganadores = new String[n];
-//            int numGanadores = 0;
-//
-//            for (int i = 0; i < n; i++) {
-//                boolean esGanador = true;
-//                for (int j = 0; j < tamanosCarton[i]; j++) {
-//                    boolean encontrado = false;
-//                    for (int k = 0; k < m; k++) {
-//                        if (cartones[i][j] == numerosCantados[k]) {
-//                            encontrado = true;
-//                            break;
-//                        }
-//                    }
-//                    if (!encontrado) {
-//                        esGanador = false;
-//                        break;
-//                    }
-//                }
-//                if (esGanador) {
-//                    ganadores[numGanadores++] = nombres[i];
-//                }
-//            }
-//
-//            // Ordenar ganadores alfabéticamente
-//            Arrays.sort(ganadores, 0, numGanadores);
-//
-//            // Mostrar ganadores
-//            for (int i = 0; i < numGanadores; i++) {
-//                if (i > 0) System.out.print(" ");
-//                System.out.print(ganadores[i]);
-//            }
-//            System.out.println();
-//        }
-//
-//        scanner.close();
+    public static void imprimir(String[] ganadores) {
 
-
-
+        for (int i = 0; i < ganadores.length; i++) {
+            if (i > 0) {
+                System.out.print(" ");
+            }
+            System.out.print(ganadores[i]);
+        }
+        System.out.println();
+    }
 }
+
