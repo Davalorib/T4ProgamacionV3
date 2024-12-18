@@ -71,7 +71,7 @@ public class BingoAzahara {
      * @param n es una variable de tipo int que contiene el número de cartones que vamos a tener.
      * @return true/false - devuelve un booleano true/false dependiendo si se encuentra o no dentro de nuestro rango.
      */
-    public static boolean comprobar(int n){
+    public static boolean comprobar(int n) {
 
         if (n < 1 || n > 50000) {
             return false;
@@ -85,7 +85,7 @@ public class BingoAzahara {
      * @param n es una variable de tipo int que contiene el número de cartones que vamos a tener.
      * @return matriz - devuelve una matriz con los datos de los cartones introducidos por teclado.
      */
-    public static String[][] carton(int n){
+    public static String[][] carton(int n) {
 
         String datos;
         String[][] matriz = new String[n][1000];
@@ -103,7 +103,7 @@ public class BingoAzahara {
      * @param n1 es una variable de tipo int que contiene el número de bolas que vamos a tener.
      * @return bolas - devuelve un vector con los números de las bolas que han salido.
      */
-    public static int[] bolas(int n1){
+    public static int[] bolas(int n1) {
 
         int[] bolas = new int[n1];
         String[] miau = ent.nextLine().split(" ");
