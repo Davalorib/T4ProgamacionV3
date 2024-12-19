@@ -126,6 +126,7 @@ public class BingoAzahara {
 
         String[] genios = new String[n];
         int cont = 0;
+        int num = 0;
 
         for (int i = 0; i < n; i++) {
             boolean bingo = true;
@@ -136,7 +137,12 @@ public class BingoAzahara {
                     break;
                 }
 
-                int num = Integer.parseInt(matriz[i][j]);
+                try {
+                    num = Integer.parseInt(matriz[i][j]);
+                } catch (NumberFormatException er) {
+                    System.exit(0);
+                }
+
                 boolean eureka = false;
 
                 for (int bola : bolas) {
@@ -176,7 +182,7 @@ public class BingoAzahara {
 
         for (int i = 0; i < pibes.length; i++) {
             for (int j = 0; j < pibes.length-i-1; j++) {
-                //el compareTo compara cadenas y objetos, si son cadenas lo hace en orden alfabético
+                //el compareTo compara cadenas en orden alfabético
                 //si el actual va antes que el siguiente da un valor negativo, si el actual va después da uno positivo, si es igual un 0
                 if (pibes[j].compareTo(pibes[j + 1]) > 0) {
                     aux = pibes[j];
