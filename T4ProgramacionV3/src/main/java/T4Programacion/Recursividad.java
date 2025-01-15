@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Recursividad {
 
     static Scanner ent = new Scanner(System.in);
-    static String palabra;
+    static char[] palabra=null;
 
     public static void main(String[] args) {
 
@@ -69,15 +69,14 @@ public class Recursividad {
                 System.out.println("\nHas elegido Del Revés");
                 System.out.println("Introduce el modo: ");
                 System.out.println("    P - palabra         N - Número");
-                if (ent.next().equals("P")){
+                String a = ent.next().toUpperCase();
+                if (a.equals("P")){
                     System.out.println("Introduce tu palabra: ");
-                    palabra = ent.next();
-                    if (palabra.length()==1){
-                        System.out.println("Tu palanra del revés es "+palabra);
-                    } else {
-                        tres2(palabra.length());
-                    }
-                } else if (ent.next().equals("N")){
+                    palabra = ent.next().toCharArray();
+                    int largo = palabra.length;
+                    tres2(largo-1);
+
+                } else if (a.equals("N")){
                     System.out.println("Introduce tu número: ");
                     int rev = num();
                     if (rev<10){
@@ -89,13 +88,40 @@ public class Recursividad {
                 elec2();
                 break;
             case 4:
-                cuatro();
+                System.out.println("\nHas elegido Binario");
+                System.out.println("Introduce tu número:  ");
+                long bin = ent.nextInt();
+
+                if (cuatro(bin)){
+                    System.out.println("Tu número es binario");
+                } else {
+                    System.out.println("Tu número no es binario");
+                }
+                elec2();
+                break;
             case 5:
-                cinco();
+                System.out.println("\nHas elegido A binario");
+                System.out.println("Introduce tu número: ");
+                int abin = ent.nextInt();
+                System.out.println(cinco(abin));
+                elec2();
+                break;
             case 6:
-                seis();
+                System.out.println("\nHas elegido Orden alfabético");
+                System.out.println("Introduce tu palabra: ");
+                palabra = ent.next().toCharArray();
+                if (seis(0)){
+                    System.out.println("Tu palabra está ordenada");
+                } else {
+                    System.out.println("Tu palabra no estä ordenada");
+                }
+                elec2();
+                break;
             case 7:
-                siete();
+                int num10 = ent.nextInt();
+                System.out.println(siete(num10));
+                elec2();
+                break;
             default:
                 System.out.println("Error");
         }
@@ -156,45 +182,62 @@ public class Recursividad {
 
     public static void tres2(int posi){
 
-        if (posi<2){
-            System.out.print(palabra.charAt(0));
-        } else {
-            System.out.print(palabra.charAt(posi-1));
+        if (posi==0){
+            System.out.print(palabra[posi]);
+        }else{
+            System.out.print(palabra[posi]);
+            tres2(posi-1);
         }
 
     }
 
-    public static void cuatro(){
+    public static boolean cuatro(long num){
 
-
-
-        elec2();
-
-    }
-
-    public static void cinco(){
-
-        System.out.flush();
-        System.out.println("Has elegido A binario");
-        elec2();
-
-    }
-
-    public static void seis(){
-
-        System.out.flush();
-        System.out.println("Has elegido Orden alfabético");
-        elec2();
+        if (num==0 || num== 1){
+            return true;
+        } else if (num>9) {
+            if (num%10==0 || num%10==1){
+                return cuatro(num/10);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
 
     }
 
-    public static void siete(){
+    public static String cinco(int num){
 
-        System.out.flush();
-        System.out.println("Has elegido Mostrar suma");
-        elec2();
+        if (num==0 || num ==1){
+            return Integer.toString(num);
+        } else {
+            return cinco(num/2)+num%2;
+        }
+
 
     }
 
+    public static boolean seis(int posi){
 
+        if (posi<palabra.length-1) {
+            if (palabra[posi]<=palabra[posi+1]){
+                return seis(posi+1);
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    public static int siete(int num){
+
+        if (num > 1){
+            return num + siete(num-1);
+        } else {
+            return num;
+        }
+    }
 }
