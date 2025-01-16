@@ -118,12 +118,20 @@ public class Recursividad {
                 elec2();
                 break;
             case 7:
+                System.out.println("\nHas elegido Mostrar suma");
+                System.out.println("Introduce tu número: ");
                 int num10 = ent.nextInt();
-                System.out.println(siete(num10));
+                if (num10<0){
+                    System.out.println("Introduce un número positivo porfa");
+                } else {
+                    System.out.println(siete(num10));
+                }
                 elec2();
                 break;
             default:
                 System.out.println("Error");
+                elec2();
+                break;
         }
 
     }
@@ -215,7 +223,6 @@ public class Recursividad {
             return cinco(num/2)+num%2;
         }
 
-
     }
 
     public static boolean seis(int posi){
@@ -227,7 +234,6 @@ public class Recursividad {
                 return false;
             }
         }
-
         return true;
 
     }
