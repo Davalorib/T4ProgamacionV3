@@ -16,11 +16,11 @@ public class Recursividad {
 
     public static void borrar() throws IOException, InterruptedException {
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+
     }
 
     public static void menu(){
 
-        System.out.flush();
         System.out.println("*** Batería de ejercicios sobre recursividad ***");
         System.out.println("Selecciona a continuación el modo que quieras ejecutar...");
         System.out.println("    1 - Dígitos");
@@ -124,7 +124,16 @@ public class Recursividad {
                 if (num10<0){
                     System.out.println("Introduce un número positivo porfa");
                 } else {
-                    System.out.println(siete(num10));
+                    int hola = siete(num10);
+                    for (int i = 1; i <= num10; i++) {
+                        System.out.print(i);
+                        if (i==num10) {
+                            System.out.print(" = ");
+                        } else {
+                            System.out.print(" + ");
+                        }
+                    }
+                    System.out.println(hola);
                 }
                 elec2();
                 break;
@@ -146,11 +155,19 @@ public class Recursividad {
 
         switch (s.toUpperCase()){
             case "M":
-                menu();
+                try {
+                    borrar();
+                    menu();
+                } catch (IOException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
             case "X":
                 System.exit(0);
+                break;
             default:
                 System.out.println("Error");
+                break;
         }
 
     }
